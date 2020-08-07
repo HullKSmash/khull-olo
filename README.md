@@ -1,2 +1,7 @@
-# khull-olo
-# khull-olo
+TODO:
+
+Add test plan
+
+Write tests
+
+Give overview of both here
