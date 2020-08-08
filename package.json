@@ -1,0 +1,22 @@
+{
+  "name": "khull-olo",
+  "version": "1.0.0",
+  "description": "TODO:",
+  "main": "get-posts.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HullKSmash/khull-olo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HullKSmash/khull-olo/issues"
+  },
+  "homepage": "https://github.com/HullKSmash/khull-olo#readme",
+  "dependencies": {
+    "node-fetch": "^2.6.0"
+  }
+}
