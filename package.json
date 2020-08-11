@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/HullKSmash/khull-olo#readme",
   "dependencies": {
+    "chai": "*",
     "node-fetch": "^2.6.0"
   }
 }
