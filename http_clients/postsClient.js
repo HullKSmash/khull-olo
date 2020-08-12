@@ -41,7 +41,7 @@ function editPost(postId, headers={}, postTitle, postBody, postUserId) {
         userId: postUserId
     });
     return new Promise ((resolve, reject) => {
-        baseReq.post(baseUrlStr + '/' + postId, headers, reqBody)
+        baseReq.put(baseUrlStr + '/' + postId, headers, reqBody)
         .then(res => resolve(res))
         .catch(error => {return reject(error)});
     })

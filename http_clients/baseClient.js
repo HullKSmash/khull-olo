@@ -19,10 +19,15 @@ function makeRequest(path, method, headers={}, body=null) {
         })
         .then(res => {
             response.status = res.status;
-            res.json().then(resBody => {
-                response.body = resBody;
-                resolve(response);
-            });
+            if (res.status != 500) {
+                res.json().then(resBody => {
+                    response.body = resBody;
+                    resolve(response);
+                })
+                .catch(error => {return reject(error)});
+            } else {
+                res.body = null;
+            }
         })
         .catch(error => {return reject(error)});
     });
@@ -63,7 +68,7 @@ function put(path, headers={}, body=null) {
     return new Promise((resolve, reject) => {
         makeRequest(path, 'PUT', headers, body)
         .then(response => {
-            resolve(response);
+            resolve(response).catch(error => {return reject(error)});
         })
         .catch(error => {return reject(error)});
     })
