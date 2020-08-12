@@ -5,13 +5,18 @@
  *     comments by user) tests for those functions would use this client.
  */
 
-var postReq = require('./baseClient');
-const queryString = require('querystring');
+var baseReq = require('./baseClient');
  
 const baseUrlStr = '/comments';
 
  //Get comments on a post
 function getComments(postId, headers={}, body=null) {
-    let res = postReq.get(baseUrlStr + '?' + postId);
-    return res;
+    let urlStr = '?' + postId;
+    return new Promise ((resolve, reject) => {
+        baseReq.get(baseUrlStr + urlStr, headers, body)
+        .then(res => resolve(res))
+        .catch((error => {return reject(error)}))
+    });
 }
+
+exports.getComments = getComments;

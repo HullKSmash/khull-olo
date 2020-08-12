@@ -1,19 +1,12 @@
 const req = require ('../http_clients/postsClient');
 var assert = require('chai').assert;
 var expect = require('chai').expect;
-/**Note: Using assert for simplicity, especially in multi-assertion cases,
- * and writing results to a JSON file.
+/**Note: Using Mocha for simplicity in reporting to the command line.
  * In a real-world scenario, these tests would report successes 
  * and failures through a frameworkd or out to something like the TestRail API.
 */
 
-//import test data
-
-//Add posts
-
-
-//Get posts
-
+//Define test data
 var validUserId = 1;
 var validPostTitle = 'test';
 var validPostBody = 'test';
