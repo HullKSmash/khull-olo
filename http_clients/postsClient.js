@@ -1,7 +1,6 @@
 /**
  * Client for interactions with posts API
  */
-
 var baseReq = require('./baseClient');
 
 const baseUrlStr = '/posts';
