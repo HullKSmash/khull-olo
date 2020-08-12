@@ -1,22 +1,20 @@
 const req = require('../http_clients/commentClient');
 const postsReq = require('../http_clients/postsClient');
-var assert = require('chai').assert;
+const testData = require('./test-data.json');
 var expect = require('chai').expect;
+
 /**Note: Using Mocha for simplicity in reporting to the command line.
  * In a real-world scenario, these tests would report successes 
  * and failures through a frameworkd or out to something like the TestRail API.
 */
 
-//Define test data
-var validUserId = 1;
-var validPostTitle = 'test';
-var validPostBody = 'test';
-var validPostId = 1;
-var invalidPostId = 101;
-var validPostTitleEdited = 'test edited';
-
-//Get comments on a valid post
-//Get comments on an invalid post
+const validUserId = testData.userIds.validUserId;
+const validPostTitle = testData.postData.validPostTitle;
+const validPostBody = testData.postData.validPostBody;
+const validPostId = testData.postIds.validPostId;
+const invalidPostId = testData.postIds.invalidPostId;
+const validPostTitleEdited = testData.postData.validPostTitleEdited;
+const validCommentStr = testData.commentData.validCommentStr;
 
 describe('GetComments', function() {
     let currentPostId;
