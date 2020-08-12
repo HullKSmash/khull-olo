@@ -1,0 +1,22 @@
+{
+    "userIds":
+        {
+            "validUserId": 1,
+            "invalidUserId": 101
+        },
+        "postIds":
+        {
+            "validPostId": 1,
+            "invalidPostId": 101
+        },
+        "postData":
+        {
+            "validPostTitle": "test",
+            "validPostBody": "test",
+            "validPostTitleEdited": "test edited"
+        },
+        "commentData":
+        {
+            "validCommentStr": "test"
+        }
+}

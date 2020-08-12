@@ -1,15 +1,15 @@
 const postsReq = require('../http_clients/postsClient');
-const commentReq= require('../http_clients/commentClient');
-
+const commentReq = require('../http_clients/commentClient');
+const testData = require('./test-data.json');
 const expect = require('chai').expect;
 
-var validUserId = 1;
-var validPostTitle = 'test';
-var validPostBody = 'test';
-var validPostId = 1;
-var invalidPostId = 101; //Found a 500 error on editing when this number is not valid
-var validPostTitleEdited = 'test edited';
-var validCommentStr = 'test';
+const validUserId = testData.userIds.validUserId;
+const validPostTitle = testData.postData.validPostTitle;
+const validPostBody = testData.postData.validPostBody;
+const validPostId = testData.postIds.validPostId;
+const invalidPostId = testData.postIds.invalidPostId;
+const validPostTitleEdited = testData.postData.validPostTitleEdited;
+const validCommentStr = testData.commentData.validCommentStr;
 
 describe('CommentPostIntegrationTests', function() {
     describe('#getAddedComments', function() {
@@ -17,7 +17,10 @@ describe('CommentPostIntegrationTests', function() {
         let currentPostId;
         
         before(function() {
-            postsReq.addPost(null, validPostTitle, validPostBody, validUserId)
+            postsReq.addPost(null, 
+                validPostTitle, 
+                validPostBody, 
+                validUserId)
             .then(response => {
                 currentPostId = response.body.id;
             })
