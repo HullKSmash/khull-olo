@@ -19,14 +19,15 @@ function makeRequest(path, method, headers={}, body=null) {
         })
         .then(res => {
             response.status = res.status;
-            if (res.status != 500) {
+            if (res.status == 500) {
+                response.body = null;
+                resolve(response);
+            } else {
                 res.json().then(resBody => {
                     response.body = resBody;
                     resolve(response);
                 })
                 .catch(error => {return reject(error)});
-            } else {
-                res.body = null;
             }
         })
         .catch(error => {return reject(error)});

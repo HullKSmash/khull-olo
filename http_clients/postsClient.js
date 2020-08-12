@@ -5,7 +5,6 @@ var baseReq = require('./baseClient');
 
 const baseUrlStr = '/posts';
 
- //get posts
  /**Though a GET request would not normally take a body, I've exposed it here 
   * for negative testing capability.
   */
@@ -45,10 +44,19 @@ function editPost(postId, headers={}, postTitle, postBody, postUserId) {
         .catch(error => {return reject(error)});
     })
 }
- //Add comments to a post - note that this is conceptually comment-oriented, but uses the posts API, so it's here
- //  Is there a chance this will be implemented under the comments API instead?
+ /**This endpoint is not implemented, so there is no call to be made.  For this case, I've mocked a return of 
+  * a response object with a 200 status and empty body
+  * Note that this function is conceptually comment-oriented, but it is implemented (or to be implemented) on 
+  * the posts endpoint according to the path 
+  * */
 function commentOnPost(postId, commentStr, headers={}, body=null) {
-    //This isn't defined in the specs; treat it like something that will be implemented
+    return new Promise ((resolve, reject) => {
+        let res = {status: 200, body: {}};
+        resolve(res);
+        if (error) {
+            reject(error);
+        }
+    })
 }
  //Remove a post
 function removePost(postId, headers={}, body=null) {
