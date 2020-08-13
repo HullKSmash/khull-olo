@@ -1,23 +1,22 @@
+/**
+ * Functional tests for the JSONPlaceholder comment endpoint.  This represents
+ * a subset of tests; a fuller list can be found in the test plan document.
+ * The mocked nature of the application impacts the failure and success of 
+ * several of these tests.
+*/
 const CommentRequest = require('../http_clients/commentClient').CommentRequest;
 const Comment = require('../http_clients/commentClient').Comment;
 const PostsRequest = require('../http_clients/postsClient').PostsRequest;
 const Post = require('../http_clients/postsClient').Post;
 const testData = require('./test-data.json');
-const { CommentClient } = require('../http_clients/commentClient');
 var expect = require('chai').expect;
 
-/**
- * Note: Using Mocha for simplicity in reporting to the command line.
- * In a real-world scenario, these tests would report successes 
- * and failures through a frameworkd or out to something like the TestRail API.
-*/
-
+//Test input data is maintained in an external JSON file and imported here
 const validUserId = testData.userIds.validUserId;
 const validPostTitle = testData.postData.validPostTitle;
 const validPostBody = testData.postData.validPostBody;
 const validPostId = testData.postIds.validPostId;
 const invalidPostId = testData.postIds.invalidPostId;
-const validPostTitleEdited = testData.postData.validPostTitleEdited;
 const validCommentStr = testData.commentData.validCommentStr;
 const validCommentName = testData.commentData.validName;
 const validCommentEmail = testData.commentData.validEmail;
@@ -27,7 +26,13 @@ describe('Comments', function () {
     let currentPostWithComments;
     let currentPostWithoutComments;
 
-    //Setup: add a post to comment on and one to have no comments
+    /**
+     * Setup: add a post to comment on and one to have no comments
+     * In a real application, I would use the post ID that I created 
+     * during setup and know exactly how manycomments it should have; 
+     * I've designed tests accordingly.  That doesn't work here, so 
+     * some tests fail accordingly.
+     */
     before(function (done) {
         currentPostWithComments = new Post(validUserId, validPostTitle, validPostBody);
         let postsReq = new PostsRequest(null, null);
@@ -57,9 +62,7 @@ describe('Comments', function () {
             .catch(error => { return error });
     })
 
-    //In a real application, I would use the post ID that I created during setup and know exactly how many
-    //comments it should have.  That won't work here, so some tests fail or pass purely as a result of this 
-    //functional limitation.
+    //"Happy path" case
     describe('#getComments', function () {
         context('from a valid post that has a comment', function () {
             it('should return one comment @regression', function (done) {
@@ -73,6 +76,7 @@ describe('Comments', function () {
             })
         });
 
+        //Negative case
         context('with an invalid postId', function () {
             it('should respond with a 404 @regression', function (done) {
                 let commentReq = new CommentRequest(invalidPostId, null, null);
@@ -97,6 +101,10 @@ describe('Comments', function () {
             })
         })
 
+        /**
+         * This is an example of a test that would be in a functional suite for development, 
+        *but may not be necessary for a regular release regression.
+        */
         context('requesting XML response', function() {
             it('should return XML content type', function(done) {
                 let reqHeader = {"Accept": "Application/XML"};
