@@ -46,11 +46,13 @@ describe('GetPosts', function () {
 
     })
 
+    //Normally I would want to get the post I just added in setup, but in this case, it won't be there
+    //Instead, I use validPostId (a post I know will be there)
     describe('#getSinglePost()', function () {
         context('with a valid post ID', function () {
-            it('should return the post I requested', function (done) {
+            it('should return the post I requested @regression', function (done) {
                 let postsReq = new PostsRequest(currentPost, null);
-                postsReq.getPosts(currentPost.id, null, null)
+                postsReq.getPosts(validPostId, null, null)
                     .then(response => {
                         expect(parseInt(response.body.id)).to.be.equal(validPostId);
                         done();
@@ -60,7 +62,7 @@ describe('GetPosts', function () {
         });
 
         context('with an invalid post ID', function () {
-            it('should return a 404', function (done) {
+            it('should return a 404 @regression', function (done) {
                 let postsReq = new PostsRequest(null);
                 postsReq.getPosts(invalidPostId, null, null)
                     .then(response => {
@@ -72,13 +74,16 @@ describe('GetPosts', function () {
         });
     });
 
+    //Depending on the test environment, I may or may not be able to determine how many posts this
+    //should return and verify that.  In this case, I know there are exactly 100 and none will be 
+    //added or deleted.
     describe('#getAllPosts', function () {
         context('all available posts', function () {
-            it('should return at least one post', function (done) {
+            it('should return all available posts @regression', function (done) {
                 let postsReq = new PostsRequest(null);
                 postsReq.getPosts(null, null, null)
                     .then(response => {
-                        expect(response.body).to.be.an('array').with.lengthOf.at.least(1);
+                        expect(response.body).to.be.an('array').with.lengthOf(100);
                         done();
                     })
                     .catch(error => { return done(error) });
