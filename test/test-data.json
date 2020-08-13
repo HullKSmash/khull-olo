@@ -4,19 +4,21 @@
             "validUserId": 1,
             "invalidUserId": 101
         },
-        "postIds":
+    "postIds":
         {
             "validPostId": 1,
             "invalidPostId": 101
         },
-        "postData":
+    "postData":
         {
             "validPostTitle": "test",
             "validPostBody": "test",
             "validPostTitleEdited": "test edited"
         },
-        "commentData":
+    "commentData":
         {
-            "validCommentStr": "test"
+            "validCommentStr": "test",
+            "validEmail": "test",
+            "validName": "name"
         }
 }
