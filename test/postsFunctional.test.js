@@ -152,7 +152,7 @@ describe('Posts', function () {
                 .catch(error => { return done(error) });
         });
         //After this block runs, delete the post I added as setup
-        after(function () {
+        after(function (done) {
             let postsReq = new PostsRequest(currentPost, null);
             postsReq.removePost(currentPost)
                 .then(response => { done() })
