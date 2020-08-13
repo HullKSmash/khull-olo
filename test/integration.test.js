@@ -17,10 +17,11 @@ const validCommentName = testData.commentData.validName;
 const validCommentEmail = testData.commentData.validEmail;
 
 describe('CommentPostIntegrationTests', function () {
-    describe('#getAddedComments', function () {
 
-        var validComment;
-        var currentPost;
+    let validComment;
+    let currentPost;
+
+    describe('#getAddedComments', function () {
 
         before(function (done) {
             currentPost = new Post(validUserId, validPostTitle, validPostBody);
@@ -31,7 +32,15 @@ describe('CommentPostIntegrationTests', function () {
                     validComment = new Comment(currentPost.id, validCommentName, validCommentEmail, validCommentStr);
                     done();
                 })
-                .catch(error => { return error });
+                .catch(error => { return done(error) });
+        });
+        
+        after(function (done) {
+            let postsReq = new PostsRequest(currentPost, null);
+            postsReq.removePost(currentPost)
+                .then(response => { done() })
+                .catch(error => { return done(error) });
+
         });
 
         /*The current post ID won't be valid on the getComments in this application's context, 
