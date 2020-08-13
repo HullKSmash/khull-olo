@@ -1,6 +1,6 @@
 /**
- * Base client for making http requests to server
- * 
+ * Base client for making http requests to server.  postsClient 
+ * and commentClient each handle their respective specific APIs.
  */
 
 const fetch = require('node-fetch');
@@ -13,7 +13,6 @@ class BaseRequest {
         this.body = body;
         this.baseUrl = 'https://jsonplaceholder.typicode.com';
     }
-
 
     //Generic function to make requests of specifiable method, url string, headers, and body
     makeRequest(method) {
@@ -42,7 +41,7 @@ class BaseRequest {
         });
     }
 
-    //Performs a get request to JSONPlaceholder API
+    //Functions for specific methods of requests
     get() {
         return new Promise((resolve, reject) => {
             this.makeRequest('GET')
