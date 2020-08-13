@@ -1,13 +1,18 @@
-## About This Project:
+## About This Project
 
 This is a suite of a sampling of tests writte in Node.js for the following enpoints, which are implemented in a mock fashion on https://jsonplaceholder.typicode.com/ :
 
-•GET https://jsonplaceholder.typicode.com/posts
-•POST https://jsonplaceholder.typicode.com/posts
-•PUT https://jsonplaceholder.typicode.com/posts/{postId}
-•DELETE https://jsonplaceholder.typicode.com/posts/{postId}
-•POST https://jsonplaceholder.typicode.com/posts/{postId}/comments 
-•GET https://jsonplaceholder.typicode.com/comments?postId={postId}
+GET https://jsonplaceholder.typicode.com/posts
+
+POST https://jsonplaceholder.typicode.com/posts
+
+PUT https://jsonplaceholder.typicode.com/posts/{postId}
+
+DELETE https://jsonplaceholder.typicode.com/posts/{postId}
+
+POST https://jsonplaceholder.typicode.com/posts/{postId}/comments 
+
+GET https://jsonplaceholder.typicode.com/comments?postId={postId}
 
 ## Dependencies
 
@@ -29,7 +34,7 @@ Chai
 
 	https://www.chaijs.com/
 
-# About Mocha
+### About Mocha
 
 The suite uses the Mocha test framework, which is documented in detail here: https://mochajs.org
 
@@ -65,7 +70,7 @@ The JSONPlaceholder application is a mock application with several API endpoints
 
 I chose to approach testing this application as if it were a production application intended to have the capability to act on requests accordingly.  (E.g. the ability to add a post through the appropriate endpoint.)  I felt this better displayed how I would approach testing of a fully functional application.  Due to the application's limitations, many tests fail validation of data creation or alteration.
 
-# Which Tests Are Here
+### Which Tests Are Here
 
 The tests here are a small subset of what would be considered a full test plan for these endpoints.  The limitations of this mock application's funcationality, mentioned previously, impacted which tests were feasible to implement here, as well as the lack of specifications on expected behavior around many negative tests and edge cases.  Similiarly, only functional tests are seen here.
 
