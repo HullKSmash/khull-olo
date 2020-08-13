@@ -31,6 +31,7 @@ class BaseRequest {
                         resolve(response);
                     } else {
                         res.json().then(resBody => {
+                            response.headers = res.headers;
                             response.body = resBody;
                             resolve(response);
                         })

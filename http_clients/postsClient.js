@@ -14,7 +14,6 @@ class Post {
 
 class PostsRequest {
     constructor(headers, body) {
-        //        this.postId = post.postId;
         this.headers = headers;
         this.body = body;
         this.baseUrlStr = '/posts';
@@ -45,7 +44,7 @@ class PostsRequest {
             body: post.postBody,
             userId: post.userId
         });
-        let req = new BaseRequest(this.baseUrlStr, this.headers, this.body);
+        let req = new BaseRequest(this.baseUrlStr, this.headers, reqBody);
         return new Promise((resolve, reject) => {
             req.post()
                 .then(res => resolve(res))

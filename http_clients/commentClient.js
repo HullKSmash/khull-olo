@@ -29,7 +29,7 @@ class CommentRequest {
 
     //Get comments on a post
     getComments(postId) {
-        let url = this.baseUrlStr + '?' + postId;
+        let url = this.baseUrlStr + '?postId=' + postId;
         let req = new BaseRequest(url, this.headers, this.body);
         return new Promise((resolve, reject) => {
             req.get()
