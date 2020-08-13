@@ -17,10 +17,11 @@ const validCommentName = testData.commentData.validName;
 const validCommentEmail = testData.commentData.validEmail;
 
 describe('CommentPostIntegrationTests', function () {
-    describe('#getAddedComments', function () {
 
-        var validComment;
-        var currentPost;
+    let validComment;
+    let currentPost;
+
+    describe('#getAddedComments', function () {
 
         before(function (done) {
             currentPost = new Post(validUserId, validPostTitle, validPostBody);
@@ -31,31 +32,42 @@ describe('CommentPostIntegrationTests', function () {
                     validComment = new Comment(currentPost.id, validCommentName, validCommentEmail, validCommentStr);
                     done();
                 })
-                .catch(error => { return error });
+                .catch(error => { return done(error) });
+        });
+        
+        after(function (done) {
+            let postsReq = new PostsRequest(currentPost, null);
+            postsReq.removePost(currentPost)
+                .then(response => { done() })
+                .catch(error => { return done(error) });
+
         });
 
         /*The current post ID won't be valid on the getComments in this application's context, 
          * but normally I would use currentPostId to add the comment as well as retrieve it 
          */
-        context('add a comment, then retrieve comments from that post', function () {
-            it('should return the comment I posted', function (done) {
+        context('add a comment, then retrieve comment from that post', function () {
+            it('should return the comment I posted @regression', function (done) {
                 let commentReq = new CommentRequest(currentPost.id, null, null);
                 let postsReq = new PostsRequest(null, null);
                 postsReq.commentOnPost(validComment)
                     .then(response => {
                         commentReq.getComments(validComment.postId)
                             .then(response => {
-                                expect(response.body).to.be.an('array').with.lengthOf.at.least(1);//make a stronger assertion here
+                                expect(response.body.title).to.be.equal(validComment.title);
+                                expect(response.body.name).to.be.equal(validComment.name);
+                                expect(response.body.email).to.be.equal(validComment.email);
+                                expect(response.body.body).to.be.equal(validComment.body);
                                 done();
                             })
                             .catch(error => { return done(error) });
                     })
-                    .catch(error => { return error });
+                    .catch(error => { return done(error) });
             })
         });
 
         context('get comments from a deleted post', function () {
-            it('should return a 404', function (done) {
+            it('should return a 404 @regression', function (done) {
                 let commentReq = new CommentRequest(currentPost.id, null, null);
                 let postsReq = new PostsRequest(currentPost, null, null);
                 postsReq.commentOnPost(validComment)

@@ -24,34 +24,49 @@ const validCommentEmail = testData.commentData.validEmail;
 
 describe('Comments', function () {
 
-    var currentPost;
-    //Add a post as setup to ensure I have something to comment on
+    let currentPostWithComments;
+    let currentPostWithoutComments;
+
+    //Setup: add a post to comment on and one to have no comments
     before(function (done) {
-        currentPost = new Post(validUserId, validPostTitle, validPostBody);
-        let postsReq = new PostsRequest(currentPost, null, null);
-        postsReq.addPost(currentPost)
+        currentPostWithComments = new Post(validUserId, validPostTitle, validPostBody);
+        let postsReq = new PostsRequest(null, null);
+        postsReq.addPost(currentPostWithComments)
             .then(response => {
-                currentPost.id = response.body.id;
-                validComment = new Comment(currentPost.id, validCommentName, validCommentEmail, validCommentStr);
-                done();
+                currentPostWithComments.id = response.body.id;
+                validComment = new Comment(currentPostWithComments.id, validCommentName, validCommentEmail, validCommentStr);
+                postsReq.commentOnPost(validComment)
+                .then(response => {});
+
+                currentPostWithoutComments = new Post(validUserId, validPostTitle, validPostBody);
+                postsReq.addPost(currentPostWithoutComments)
+                    .then(response => {
+                        currentPostWithoutComments.id = response.body.id;
+                        done();
+                    })
+                    .catch(error => { return done(error) });
             })
-            .catch(error => { return error });
+            .catch(error => { return done(error) });
     });
+
     //For teardown, remove post I created for testing
     after(function () {
-        let postsReq = new PostsRequest(currentPost, null, null);
-        postsReq.removePost()
+        let postsReq = new PostsRequest(null, null);
+        postsReq.removePost(currentPostWithComments.id)
             .then(response => { })
             .catch(error => { return error });
     })
 
+    //In a real application, I would use the post ID that I created during setup and know exactly how many
+    //comments it should have.  That won't work here, so some tests fail or pass purely as a result of this 
+    //functional limitation.
     describe('#getComments', function () {
-        context('with a valid postId', function () {
-            it('should return at least one comment', function (done) {
-                let req = new CommentRequest(validPostId, null, null);
-                req.getComments()
+        context('from a valid post that has a comment', function () {
+            it('should return one comment @regression', function (done) {
+                let commentReq = new CommentRequest(validPostId, null, null);
+                commentReq.getComments()
                     .then(response => {
-                        expect(response.body).to.be.an('array').with.lengthOf.at.least(1);
+                        expect(response.body).to.be.an('array').with.lengthOf(1);//update to get the comment I added
                         done();
                     })
                     .catch(error => { return done(error) });
@@ -59,11 +74,37 @@ describe('Comments', function () {
         });
 
         context('with an invalid postId', function () {
-            it('should respond with a 404', function (done) {
-                let req = new CommentRequest(invalidPostId, null, null);
-                req.getComments()
+            it('should respond with a 404 @regression', function (done) {
+                let commentReq = new CommentRequest(invalidPostId, null, null);
+                commentReq.getComments()
                     .then(response => {
                         expect(response.status).to.be.equal(404);
+                        done();
+                    })
+                    .catch(error => { return done(error) });
+            })
+        })
+
+        context('from a valid post that has no comments', function () {
+            it('should return an empty array @regression', function (done) {
+                let commentReq = new CommentRequest(currentPostWithoutComments.id, null, null);
+                commentReq.getComments(currentPostWithoutComments.id)
+                    .then(response => {
+                        expect(response.body).to.be.an('array').with.lengthOf(0);
+                        done();
+                    })
+                    .catch(error => { return done(error) });
+            })
+        })
+
+        context('requesting XML response', function() {
+            it('should return XML content type', function(done) {
+                let reqHeader = {"Accept": "Application/XML"};
+                let commentReq = new CommentRequest(validPostId, reqHeader, null);
+                commentReq.getComments(validPostId)
+                    .then(response => {
+                        console.log(response.headers.get('content-type'));
+                        expect(response.headers.get('content-type')).to.be.equal('application/xml; charset=utf-8');
                         done();
                     })
                     .catch(error => { return done(error) });

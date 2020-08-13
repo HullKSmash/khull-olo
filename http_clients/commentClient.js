@@ -1,8 +1,8 @@
 /**
  * Client for http requests to comments API.  Calls are made via baseClient.js.
- * I've split this off from the post client for future scalability.
- *     If more functionality is added to comments (deleting, editing, fetching 
- *     comments by user) tests for those functions would use this client.
+ * I've split this off from the post client for future scalability, though 
+ * there is currently only one route here.  In this structure, tests for 
+ * expanded routes and functions on this endpoint could easily be added here.
  */
 
 var BaseRequest = require('./baseClient').BaseRequest;
@@ -27,9 +27,9 @@ class CommentRequest {
         this.baseUrlStr = '/comments';
     }
 
-    //Get comments on a post
+    //This is the only route implemented or documented on this endpoint
     getComments(postId) {
-        let url = this.baseUrlStr + '?' + postId;
+        let url = this.baseUrlStr + '?postId=' + postId;
         let req = new BaseRequest(url, this.headers, this.body);
         return new Promise((resolve, reject) => {
             req.get()

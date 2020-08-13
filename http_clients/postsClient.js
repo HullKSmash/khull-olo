@@ -1,5 +1,8 @@
 /**
- * Client for interactions with posts API
+ * Client for http requests to posts API.  Calls are made via baseClient.js.
+ * I've split this off from the comments client for both organization and 
+ * future scalability.  In this structure, tests for expanded routes and 
+ * functions on this endpoint could easily be added here.
  */
 var BaseRequest = require('./baseClient').BaseRequest;
 
@@ -14,13 +17,10 @@ class Post {
 
 class PostsRequest {
     constructor(headers, body) {
-        //        this.postId = post.postId;
         this.headers = headers;
         this.body = body;
         this.baseUrlStr = '/posts';
     }
-
-    //const baseUrlStr = '/posts';
 
     /**
      * Though a GET request would not normally take a body, I've exposed it here 
@@ -45,7 +45,7 @@ class PostsRequest {
             body: post.postBody,
             userId: post.userId
         });
-        let req = new BaseRequest(this.baseUrlStr, this.headers, this.body);
+        let req = new BaseRequest(this.baseUrlStr, this.headers, reqBody);
         return new Promise((resolve, reject) => {
             req.post()
                 .then(res => resolve(res))
@@ -67,7 +67,7 @@ class PostsRequest {
                 .catch(error => { return reject(error) });
         })
     }
-    /**This endpoint is not implemented, so there is no call to be made.  For this case, I've mocked a return of 
+    /**This endpoint is not implemented on the JSON Placeholder application.  For this case, I've mocked a return of 
      * a response object with a 200 status and empty body
      * Note that this function is conceptually comment-oriented, but it is implemented (or to be implemented) on 
      * the posts endpoint according to the path 
